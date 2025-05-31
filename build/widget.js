@@ -35,9 +35,9 @@ function registerEventListener(tips) {
     }, 1000);
     showMessage(welcomeMessage(tips.time, tips.message.welcome, tips.message.referrer), 7000, 11);
     window.addEventListener('mouseover', (event) => {
-        var _a;
+        var _b;
         for (let { selector, text } of tips.mouseover) {
-            if (!((_a = event.target) === null || _a === void 0 ? void 0 : _a.closest(selector)))
+            if (!((_b = event.target) === null || _b === void 0 ? void 0 : _b.closest(selector)))
                 continue;
             if (lastHoverElement === selector)
                 return;
@@ -49,9 +49,9 @@ function registerEventListener(tips) {
         }
     });
     window.addEventListener('click', (event) => {
-        var _a;
+        var _b;
         for (let { selector, text } of tips.click) {
-            if (!((_a = event.target) === null || _a === void 0 ? void 0 : _a.closest(selector)))
+            if (!((_b = event.target) === null || _b === void 0 ? void 0 : _b.closest(selector)))
                 continue;
             text = randomSelection(text);
             text = text.replace('{text}', event.target.innerText);
@@ -85,7 +85,6 @@ function registerEventListener(tips) {
 }
 function loadWidget(config) {
     return __awaiter(this, void 0, void 0, function* () {
-        var _a;
         localStorage.removeItem('waifu-display');
         sessionStorage.removeItem('waifu-text');
         document.body.insertAdjacentHTML('beforeend', `<div id="waifu">
@@ -108,7 +107,7 @@ function loadWidget(config) {
         new ToolsManager(model, config, tips).registerTools();
         if (config.drag)
             registerDrag();
-        (_a = document.getElementById('waifu')) === null || _a === void 0 ? void 0 : _a.classList.add('waifu-active');
+        document.getElementById('waifu').style.bottom = '0';
     });
 }
 function initWidget(config) {
@@ -122,18 +121,16 @@ function initWidget(config) {
      </div>`);
     const toggle = document.getElementById('waifu-toggle');
     toggle === null || toggle === void 0 ? void 0 : toggle.addEventListener('click', () => {
-        var _a;
-        toggle === null || toggle === void 0 ? void 0 : toggle.classList.remove('waifu-toggle-active');
+        toggle.classList.remove('waifu-toggle-active');
         if (toggle === null || toggle === void 0 ? void 0 : toggle.getAttribute('first-time')) {
             loadWidget(config);
             toggle === null || toggle === void 0 ? void 0 : toggle.removeAttribute('first-time');
         }
         else {
             localStorage.removeItem('waifu-display');
-            (_a = document.getElementById('waifu')) === null || _a === void 0 ? void 0 : _a.classList.remove('waifu-hidden');
+            document.getElementById('waifu').style.display = '';
             setTimeout(() => {
-                var _a;
-                (_a = document.getElementById('waifu')) === null || _a === void 0 ? void 0 : _a.classList.add('waifu-active');
+                document.getElementById('waifu').style.bottom = '0';
             }, 0);
         }
     });
