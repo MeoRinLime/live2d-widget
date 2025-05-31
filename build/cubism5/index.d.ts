@@ -1,8 +1,15 @@
-export class AppDelegate extends LAppDelegate {
+export class AppDelegate {
+    run(): void;
     _drawFrameId: number;
     stop(): void;
+    release(): void;
+    _cubismOption: any;
+    releaseEventListener(): void;
+    pointBeganEventListener: any;
+    pointMovedEventListener: any;
+    pointEndedEventListener: any;
+    pointCancelEventListener: any;
+    initializeSubdelegates(): void;
     changeModel(modelSettingPath: string): void;
-    get subdelegates(): import("@framework/type/csmvector.js").csmVector<LAppSubdelegate>;
+    get subdelegates(): any;
 }
-import { LAppDelegate } from '@demo/lappdelegate.js';
-import { LAppSubdelegate } from '@demo/lappsubdelegate.js';
