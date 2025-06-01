@@ -34,7 +34,7 @@ function loadWidget(config) {
 
 
     function welcomeMessage(time) {
-        const text = `欢迎来到<span>「梦灵的博客网站」</span>`;
+        const text = `欢迎来到<span>「寰球视窗」</span>`;
         let from;
         if (document.referrer !== "") {
             const referrer = new URL(document.referrer),
