@@ -1,50 +1,38 @@
-import terser from '@rollup/plugin-terser';
-import alias from '@rollup/plugin-alias';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { nodeResolve } from "@rollup/plugin-node-resolve";
+import { createFilter } from "@rollup/pluginutils";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+function string(opts = {}) {
+    if (!opts.include) {
+        throw Error("include option should be specified");
+    }
 
-function findCubismDir() {
-  const buildDir = path.join(__dirname, 'build');
-  let candidates = fs.readdirSync(buildDir)
-    .filter(f => f.startsWith('CubismSdkForWeb-') && fs.statSync(path.join(buildDir, f)).isDirectory());
-  if (candidates.length === 0) {
-    candidates = ['CubismSdkForWeb-5-r.4'];
-  }
-  return path.join(buildDir, candidates[0]);
-}
+    const filter = createFilter(opts.include, opts.exclude);
 
-const cubismDir = findCubismDir();
+    return {
+        name: "string",
 
-export default {
-  input: 'build/waifu-tips.js',
-  output: {
-    dir: 'dist/',
-    format: 'esm',
-    chunkFileNames: 'chunk/[name].js',
-    sourcemap: true,
-    banner: `/*!
+        transform(code, id) {
+            if (filter(id)) {
+                return {
+                    code: `export default ${JSON.stringify(code)};`,
+                    map: { mappings: "" }
+                };
+            }
+        },
+
+        renderChunk(code, chunk, outputOptions = {}) {
+            return `/*!
  * Live2D Widget
  * https://github.com/stevenjoezhang/live2d-widget
  */
-`
-  },
-  plugins: [
-    alias({
-      entries: [
-        {
-          find: '@demo',
-          replacement: path.resolve(cubismDir, 'Samples/TypeScript/Demo/src/')
-        },
-        {
-          find: '@framework',
-          replacement: path.resolve(cubismDir, 'Framework/src/')
+` + code;
         }
-      ]
-    }),
-    terser(),
-  ],
-  context: 'this',
+    };
+}
+
+export default {
+    input: "src/waifu-tips.js",
+    plugins: [nodeResolve(), string({
+        include: "**/*.svg",
+    })]
 };
