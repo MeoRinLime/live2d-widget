@@ -12,6 +12,23 @@ import fa_volume_xmark from "@fortawesome/fontawesome-free/svgs/solid/volume-xma
 
 import showMessage from "./message.js";
 
+// TTS相关变量 - 已禁用
+// let isAudioEnabled = true;
+// let isPlaying = false;
+
+// TTS功能 - 已注释
+/*
+function playTTS(text) {
+    if (isAudioEnabled && !isPlaying) {
+        // TTS实现代码已被注释
+    }
+}
+
+function setAudioEnabled(enabled) {
+    isAudioEnabled = enabled;
+}
+*/
+
 let text = "";
 
 function showHitokoto() {
@@ -28,12 +45,25 @@ function backToTop() {
     window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
+// TTS相关变量和函数 - 已注释
+// let isAudioEnabled = true;
+
+// function playTTS(text) {
+//     if (isAudioEnabled) {
+//         // TTS功能实现
+//     }
+// }
+
 function toggleAudio() {
+    // TTS功能已禁用 - 原代码已注释
+    /*
     if (isAudioEnabled) {
         showMessage("那小寰就不打扰你啦~", 4000, 9);
     } else {
         showMessage("小寰回来啦~", 4000, 9);
     }
+    */
+    showMessage("音频功能暂时不可用", 4000, 9);
 }
 
 
@@ -63,10 +93,13 @@ const tools = {
         icon: fa_comment,
         callback: showHitokoto
     },
+    // TTS音频切换功能已注释
+    /*
     "toggle-audio": {
         icon: (() => isAudioEnabled ? fa_volume_high : fa_volume_xmark)(),
         callback: toggleAudio
     },
+    */
     "ask-qwen": {
         icon: fa_question_circle,
         callback: askQwenTurbo
